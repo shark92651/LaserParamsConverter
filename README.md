@@ -12,6 +12,10 @@ This software requires the .Net 6.0 Runtime. If the required .Net Runtime is not
 
 ## Change History
 
+### 1.0.6 Released 6/27/2022  
+*First official release  
+*Added support for saving EZCAD2 to EZCAD3 format, and vice versa  
+
 ### 1.0.5 Beta Released 6/22/2022  
 *Fixed globalization issue with decimal point  
 
