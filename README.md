@@ -6,7 +6,7 @@ This project came about as I wanted a way to quickly convert an entire laser par
 ## WARNING: Please make a backup copy of any library file before use! This software is offered for free, there is no warranty, and the user accepts all risk of it's use.
 
 ## Installation  
-Download the LaserParamsConverter_x.x.x.msi and the Setup.exe files from the repository and run Setup. This software is NOT signed with a trusted certificate because they cost a couple hundred dollars a year and I am giving this software away for free. You will most likely see a Windows "Smart Screen" warning you that it is an unrecognized app. You can force the install by clicking "More Info" and then "Run Anyway". You will have to trust that this software is not malicious. If you can't do that, then don't install it.
+Download the LaserParamsConverter_x.x.x.zip from the Releases link on the right-hand side of the GitHub site. Extract the files to a folder on your PC and run Setup.exe. This software is NOT signed with a trusted certificate because they cost a couple hundred dollars a year and I am giving this software away for free. You will most likely see a Windows "Smart Screen" warning you that it is an unrecognized app. You can force the install by clicking "More Info" and then "Run Anyway". You will have to trust that this software is not malicious. If you can't do that, then don't install it.
 
 This software requires the .Net 6.0 Runtime. If the required .Net Runtime is not installed on your system, a link will be provided in order to downoad and install the Runtime. This software will only run on Microsoft Windows systems.
 
