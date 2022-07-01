@@ -360,7 +360,7 @@ namespace LaserParamsConverter
 				if (speedNode != null && minPowerNode != null && maxPowerNode != null)
 				{
 					int speed = int.Parse(speedNode.Attributes[0].Value, NumberFormatInfo.InvariantInfo);
-					int power = int.Parse(minPowerNode.Attributes[0].Value, NumberFormatInfo.InvariantInfo);
+					int power = int.Parse(maxPowerNode.Attributes[0].Value, NumberFormatInfo.InvariantInfo);
 
 					LaserParam param = new LaserParam(speed, power);
 					param.Convert(outLib.Laser, outLib.MaxPower, this.Lens, this.Wattage, outLib.Lens, outLib.Wattage);
