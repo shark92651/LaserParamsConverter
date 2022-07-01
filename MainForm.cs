@@ -35,7 +35,7 @@ namespace LaserParamsConverter
 		private void MainForm_Load(object sender, EventArgs e)
 		{
 			string version = Assembly.GetEntryAssembly().GetName().Version.ToString(3);
-			this.Text = string.Format("Laser Parameters Converter {0} Beta", version);
+			this.Text = string.Format("Laser Parameters Converter {0}", version);
 
 			LoadSettings();
 		}
@@ -329,11 +329,14 @@ namespace LaserParamsConverter
 					bool convertToLightBurn = (outputLib.Format < LibraryType.LightBurn && saveType == LibraryType.LightBurn);
 					bool convertEZFormat = (outputLib.Format == LibraryType.EZCAD2 && saveType == LibraryType.EZCAD3) ||
 																 (outputLib.Format == LibraryType.EZCAD3 && saveType == LibraryType.EZCAD2);
+					bool convertToCSV = (saveType == LibraryType.CSV);
 
 					if (convertToLightBurn)
 						outputLib.SaveAsLightBurn(dlgSaveFile.FileName);
 					else if (convertEZFormat)
 						outputLib.SaveEZCAD(saveType, dlgSaveFile.FileName);
+					else if (convertToCSV)
+						outputLib.SaveAsCSV(dlgSaveFile.FileName);
 					else
 						outputLib.Save(dlgSaveFile.FileName);
 					

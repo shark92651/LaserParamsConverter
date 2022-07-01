@@ -313,7 +313,7 @@
 			this.dlgSaveFile.DefaultExt = "lib";
 			this.dlgSaveFile.FileName = "MarkParam.lib";
 			this.dlgSaveFile.Filter = "EZCAD2 Param Library (*.lib)|*.lib|EZCAD3 Param Library (*.ini)|*.ini|LightBurn C" +
-    "ut Library (*.clb)|*.clb|All files (*.*)|*.*";
+    "ut Library (*.clb)|*.clb|Excel CSV File (*.csv)|*.csv|All files (*.*)|*.*";
 			this.dlgSaveFile.FilterIndex = 0;
 			this.dlgSaveFile.OverwritePrompt = false;
 			// 

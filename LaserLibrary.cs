@@ -36,7 +36,7 @@ namespace LaserParamsConverter
 		Fiber 
 	};
 
-	public enum LibraryType { EZCAD2, EZCAD3, LightBurn };
+	public enum LibraryType { EZCAD2, EZCAD3, LightBurn, CSV };
 
 
 	static class LaserHelper
@@ -315,6 +315,122 @@ namespace LaserParamsConverter
 
 			File.WriteAllText(fileName, sb.ToString());
 		}
+
+		public void SaveAsCSV(string fileName)
+		{
+			if (Format == LibraryType.LightBurn)
+				LightBurnSaveAsCSV(fileName);
+			else
+				EZCADSaveAsCSV(fileName);
+		}
+
+		private void LightBurnSaveAsCSV(string fileName)
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.AppendLine("Name,Pass,Speed,Power,Freq (KHz),Mode,Interval");
+
+			string name;
+			string noThickTitle;
+			string desc;
+			string loop;
+			string speed;
+			string power;
+			string freq;
+			string mode;
+			string interval;
+
+			string materialPath = "//LightBurnLibrary/Material";
+			foreach (XmlNode node in doc.SelectNodes(materialPath))
+			{
+				name = node.Attributes[0].Value;
+
+				foreach (XmlNode eNode in node.SelectNodes(".//Entry"))
+				{
+					noThickTitle = GetAttributeValue(eNode, "NoThickTitle", "");
+					desc = GetAttributeValue(eNode, "Desc", "");
+
+					loop = GetChildNodeValue(node, ".//Entry/CutSetting/numPasses", "1");
+					speed = GetChildNodeValue(node, ".//Entry/CutSetting/speed", "0");
+					power = GetChildNodeValue(node, ".//Entry/CutSetting/maxPower", "0");
+					freq = GetChildNodeValue(node, ".//Entry/CutSetting/frequency", "0");
+
+					mode = GetChildNodeValue(node, ".//Entry/CutSetting", "Scan");
+					if (mode == "Scan")
+						mode = "Fill";
+					else if (mode == "Cut")
+						mode = "Line";
+					else
+						mode = "Offset Fill";
+
+					interval = GetChildNodeValue(node, ".//Entry/CutSetting/interval", "0.000");
+
+					sb.AppendLine(string.Format("\"{0} {1} {2}\",{3},{4},{5},{6},{7},{8}", 
+						name.Replace("\"", "\"\""), noThickTitle.Replace("\"", "\"\""), desc.Replace("\"", "\"\""), 
+						loop, 
+						speed, 
+						power, (int.Parse(freq) / 1000).ToString(),
+						mode,
+						interval) );
+				}
+
+			}
+			File.WriteAllText(fileName, sb.ToString());
+		}
+
+		private string GetAttributeValue(XmlNode node, string attribute, string defValue)
+		{
+			XmlAttribute attr = node.Attributes[attribute];
+			if (attr != null)
+				return attr.Value;
+			else
+				return defValue;
+		}
+
+		private string GetChildNodeValue(XmlNode node, string xmlPath, string defValue)
+		{
+			XmlNode cNode = node.SelectSingleNode(xmlPath);
+			if (cNode != null)
+				return cNode.Attributes[0].Value;
+			else
+				return defValue;
+		}
+
+
+		private void EZCADSaveAsCSV(string fileName)
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.AppendLine("Name,Pass,Speed,Power,Freq (KHz)");
+
+			string name;
+			string loop;
+			string speed;
+			string power;
+			string freq;
+
+			string materialPath = "//EZCADLibrary/Material";
+			string freqPath = (Format == LibraryType.EZCAD2) ? ".//Entry/CutSetting/FREQ" : "//Entry/CutSetting/FREQF";
+
+			foreach (XmlNode node in doc.SelectNodes(materialPath))
+			{
+				name = node.Attributes[0].Value;
+				if (name == "LASERMODE")
+					continue;
+
+				loop = GetChildNodeValue(node, ".//Entry/CutSetting/LOOP", "1");
+				speed = GetChildNodeValue(node, ".//Entry/CutSetting/MARKSPEED", "0");
+				power = GetChildNodeValue(node, ".//Entry/CutSetting/POWERRATIO", "0");
+				freq = GetChildNodeValue(node, freqPath, "0");
+
+				sb.AppendLine(string.Format("\"{0}\",{1},{2},{3},{4}", name.Replace("\"", "\"\""), 
+					int.Parse(loop, NumberFormatInfo.InvariantInfo).ToString(),
+					int.Parse(speed, NumberStyles.AllowExponent | NumberStyles.AllowDecimalPoint, NumberFormatInfo.InvariantInfo).ToString(),
+					int.Parse(power, NumberStyles.AllowExponent | NumberStyles.AllowDecimalPoint, NumberFormatInfo.InvariantInfo).ToString(), 
+					(int.Parse(freq, NumberStyles.AllowExponent | NumberStyles.AllowDecimalPoint, NumberFormatInfo.InvariantInfo) / 1000).ToString()) );
+			}
+
+			File.WriteAllText(fileName, sb.ToString());
+		}
+
 
 		private void AppendCutSetting(XmlElement cutSetting, string s)
 		{
