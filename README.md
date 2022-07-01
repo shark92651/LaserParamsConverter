@@ -12,6 +12,9 @@ This software requires the .Net 6.0 Runtime. If the required .Net Runtime is not
 
 ## Change History
 
+### Version 1.0.7 Released 7/1/2022
+*Fixed issue in LightBurn conversion where MaxPower was overwritten with MinPower  
+
 ### 1.0.6 Released 6/27/2022  
 *First official release  
 *Added support for saving EZCAD2 to EZCAD3 format, and vice versa  
