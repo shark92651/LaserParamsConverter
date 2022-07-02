@@ -85,6 +85,13 @@ namespace LaserParamsConverter
 			set { Properties.Settings.Default.outWattsCO2 = value; }
 		}
 
+		public static bool ChkForUpdates
+		{
+			get { return Properties.Settings.Default.chkForUpdates; }
+			set { Properties.Settings.Default.chkForUpdates = value; }
+		}
+
+
 		public static void Save()
 		{ 
 			Properties.Settings.Default.Save();

@@ -12,6 +12,10 @@ This software requires the .Net 6.0 Runtime. If the required .Net Runtime is not
 
 ## Change History
 
+### Version 1.0.8 Released 7/2/2022
+*Added ability to save converted library to Comma Separated Values format (.csv) so library can be opened in Excel  
+*Added Auto Update feature to notify when new releases are available on GitHub  
+
 ### Version 1.0.7 Released 7/1/2022
 *Fixed issue in LightBurn conversion where MaxPower was overwritten with MinPower  
 

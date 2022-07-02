@@ -32,5 +32,8 @@
     <Setting Name="outWattsCO2" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">50</Value>
     </Setting>
+    <Setting Name="chkForUpdates" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

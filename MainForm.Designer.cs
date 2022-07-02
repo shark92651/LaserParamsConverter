@@ -65,6 +65,7 @@
 			this.pnlInput = new System.Windows.Forms.Panel();
 			this.pnlOutput = new System.Windows.Forms.Panel();
 			this.llGitHub = new System.Windows.Forms.LinkLabel();
+			this.cbCheckForUpdates = new System.Windows.Forms.CheckBox();
 			this.tlpMain.SuspendLayout();
 			this.pnlInput.SuspendLayout();
 			this.pnlOutput.SuspendLayout();
@@ -416,6 +417,7 @@
 			// 
 			// llGitHub
 			// 
+			this.llGitHub.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.llGitHub.AutoSize = true;
 			this.llGitHub.Location = new System.Drawing.Point(476, 15);
 			this.llGitHub.Name = "llGitHub";
@@ -425,11 +427,26 @@
 			this.llGitHub.Text = "LaserParamsConverter GitHub Site";
 			this.llGitHub.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.llGitHub_LinkClicked);
 			// 
+			// cbCheckForUpdates
+			// 
+			this.cbCheckForUpdates.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.cbCheckForUpdates.AutoSize = true;
+			this.cbCheckForUpdates.Checked = true;
+			this.cbCheckForUpdates.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.cbCheckForUpdates.Location = new System.Drawing.Point(484, 40);
+			this.cbCheckForUpdates.Name = "cbCheckForUpdates";
+			this.cbCheckForUpdates.Size = new System.Drawing.Size(180, 19);
+			this.cbCheckForUpdates.TabIndex = 30;
+			this.cbCheckForUpdates.Text = "Check for updates on Startup";
+			this.cbCheckForUpdates.UseVisualStyleBackColor = true;
+			this.cbCheckForUpdates.CheckedChanged += new System.EventHandler(this.cbCheckForUpdates_CheckedChanged);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(680, 473);
+			this.Controls.Add(this.cbCheckForUpdates);
 			this.Controls.Add(this.llGitHub);
 			this.Controls.Add(this.tlpMain);
 			this.Controls.Add(this.tbMaxPower);
@@ -498,5 +515,6 @@
 		private Panel pnlInput;
 		private Panel pnlOutput;
 		private LinkLabel llGitHub;
+		private CheckBox cbCheckForUpdates;
 	}
 }

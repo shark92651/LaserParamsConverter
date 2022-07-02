@@ -38,6 +38,7 @@ namespace LaserParamsConverter
 			this.Text = string.Format("Laser Parameters Converter {0}", version);
 
 			LoadSettings();
+			CheckForUpdates();
 		}
 
 		private LibraryType Format
@@ -123,13 +124,14 @@ namespace LaserParamsConverter
 		const int maxPowerDefault = 100;
 
 		int prevLaserIndex = -1;
-				private bool initializing = false;
+		private bool initializing = false;
 
 		private void LoadSettings()
 		{
 			initializing = true;
 			try
 			{
+				cbCheckForUpdates.Checked = Settings.ChkForUpdates;
 				cbFormat.SelectedIndex = Settings.IdxFormat;
 
 				prevLaserIndex = Settings.IdxLaser;
@@ -185,6 +187,22 @@ namespace LaserParamsConverter
 					break;
 			}
 		}
+
+		private void CheckForUpdates()
+		{
+			if (Settings.ChkForUpdates)
+				Updates.CheckForUpdate();
+		}
+
+		private void cbCheckForUpdates_CheckedChanged(object sender, EventArgs e)
+		{
+			if (!initializing)
+			{
+				Settings.ChkForUpdates = cbCheckForUpdates.Checked;
+				CheckForUpdates();
+			}
+		}
+
 
 		private void tbInputLens_KeyPress(object sender, KeyPressEventArgs e)
 		{
@@ -411,5 +429,6 @@ namespace LaserParamsConverter
 			sInfo.UseShellExecute = true;
 			Process.Start(sInfo);
 		}
+
 	}
 }
