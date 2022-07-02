@@ -1,3 +1,5 @@
+**If you find the program useful please consider donating to the fund to pay for the trust certificate so we can remove the warnings at installation:  [GoFundMe for Code Signing Certificate](https://gofund.me/ebcadedb)**
+
 # LaserParamsConverter
 Converts parameter settings and libraries for different laser engraver wattages and lens sizes. Supports EZCAD2, EZCAD3, and LightBurn parameter library file types.
 
