@@ -6,12 +6,12 @@
     <Nullable>disable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <AssemblyVersion>1.0.8.0</AssemblyVersion>
+    <AssemblyVersion>1.1.0.0</AssemblyVersion>
     <UseWPF>False</UseWPF>
     <ApplicationIcon>lpc.ico</ApplicationIcon>
     <StartupObject>LaserParamsConverter.Program</StartupObject>
     <PackageIcon>lpc_128.png</PackageIcon>
-    <FileVersion>1.0.8.0</FileVersion>
+    <FileVersion>1.1.0.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
