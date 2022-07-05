@@ -16,7 +16,7 @@ This software requires the .Net 6.0 Runtime. If the required .Net Runtime is not
 
 ### Version 1.1.0 Released 7/5/2022
 *Added library management feature with ability to combine all or parts of multiple libraries into a single new library.  
-*Fixed issue when encounting unexpected decimal values for Power and Speed  
+*Fixed issue when encountering unexpected decimal values for Power and Speed  
 
 ### Version 1.0.8 Released 7/2/2022
 *Added ability to save converted library to Comma Separated Values format (.csv) so library can be opened in Excel  
