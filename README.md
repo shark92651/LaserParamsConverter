@@ -1,3 +1,5 @@
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/W7W0DPW3G)
+
 **If you find the program useful please consider donating to the fund to pay for the trust certificate so we can remove the warnings at installation:  [GoFundMe for Code Signing Certificate](https://gofund.me/ebcadedb)**
 
 # LaserParamsConverter
