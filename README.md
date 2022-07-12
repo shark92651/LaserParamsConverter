@@ -1,6 +1,6 @@
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/W7W0DPW3G)
 
-**If you find the program useful please consider donating to the fund to pay for the trust certificate so we can remove the warnings at installation:  [GoFundMe for Code Signing Certificate](https://gofund.me/ebcadedb)**
+**If you find the program useful, please consider a small donation by clicking the link to <a href="https://ko-fi.com/W7W0DPW3G">buy me a coffee on Ko-Fi</a>**
 
 # LaserParamsConverter
 Converts parameter settings and libraries for different laser engraver wattages and lens sizes. Supports EZCAD2, EZCAD3, and LightBurn parameter library file types.
