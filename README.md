@@ -16,6 +16,9 @@ This software requires the .Net 6.0 Runtime. If the required .Net Runtime is not
 
 ## Change History
 
+### Version 1.1.1 Released X/X/XXXX
+*Converts minPower and maxPower separately for LightBurn conversions  
+
 ### Version 1.1.0 Released 7/5/2022
 *Added library management feature with ability to combine all or parts of multiple libraries into a single new library.  
 *Fixed issue when encountering unexpected decimal values for Power and Speed  

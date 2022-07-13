@@ -130,6 +130,16 @@ namespace LaserParamsConverter
 			get {	return string.Format("//{0}/Material", RootNodeName); }
 		}
 
+		public string EntryPath
+		{
+			get { return string.Format("//{0}/Material/Entry", RootNodeName); }
+		}
+
+		public string CutSettingPath
+		{
+			get { return string.Format("//{0}/Material/Entry/CutSetting", RootNodeName); }
+		}
+
 
 		public LaserLibrary(LibraryType format, LaserType laser, int maxPower, int lens, int wattage)
 		{
@@ -164,7 +174,6 @@ namespace LaserParamsConverter
 				case LibraryType.LightBurn:
 					LoadLightBurn(fileName);
 					break;
-
 				default:
 					break;
 			}
@@ -183,9 +192,7 @@ namespace LaserParamsConverter
 			XmlElement root = doc.DocumentElement;
 			doc.InsertBefore(xmlDeclaration, root);
 
-			string rootName = "EZCADLibrary";
-
-			XmlElement body = doc.CreateElement(string.Empty, rootName, string.Empty);
+			XmlElement body = doc.CreateElement(string.Empty, RootNodeName, string.Empty);
 			doc.AppendChild(body);
 
 			string s;
@@ -264,10 +271,9 @@ namespace LaserParamsConverter
 			XmlElement body = xdoc.CreateElement(string.Empty, "LightBurnLibrary", string.Empty);
 			xdoc.AppendChild(body);
 
-			string materialPath = "//EZCADLibrary/Material";
 			string freqPath = (Format == LibraryType.EZCAD2) ? ".//FREQ" : "//FREQF";
 
-			foreach (XmlNode node in doc.SelectNodes(materialPath))
+			foreach (XmlNode node in doc.SelectNodes(MaterialPath))
 			{
 				if (node.Attributes["name"].Value == "LASERMODE")
 					continue;
@@ -345,9 +351,7 @@ namespace LaserParamsConverter
 
 			StringBuilder sb = new StringBuilder();
 
-			string materialPath = "//EZCADLibrary/Material";
-
-			foreach (XmlNode node in doc.SelectNodes(materialPath))
+			foreach (XmlNode node in doc.SelectNodes(MaterialPath))
 			{
 				sb.AppendLine(string.Format("[{0}]", node.Attributes["name"].Value));
 
@@ -393,8 +397,7 @@ namespace LaserParamsConverter
 			string mode;
 			string interval;
 
-			string materialPath = "//LightBurnLibrary/Material";
-			foreach (XmlNode node in doc.SelectNodes(materialPath))
+			foreach (XmlNode node in doc.SelectNodes(MaterialPath))
 			{
 				name = node.Attributes[0].Value;
 
@@ -461,10 +464,9 @@ namespace LaserParamsConverter
 			string power;
 			string freq;
 
-			string materialPath = "//EZCADLibrary/Material";
 			string freqPath = (Format == LibraryType.EZCAD2) ? ".//Entry/CutSetting/FREQ" : "//Entry/CutSetting/FREQF";
 
-			foreach (XmlNode node in doc.SelectNodes(materialPath))
+			foreach (XmlNode node in doc.SelectNodes(MaterialPath))
 			{
 				name = node.Attributes[0].Value;
 				if (name == "LASERMODE")
@@ -519,9 +521,7 @@ namespace LaserParamsConverter
 
 		private void ConvertLightBurn(LaserLibrary outLib)
 		{
-			string cutSettingPath = "//LightBurnLibrary/Material/Entry";
-
-			foreach (XmlNode node in outLib.doc.SelectNodes(cutSettingPath))
+			foreach (XmlNode node in outLib.doc.SelectNodes(EntryPath))
 			{
 				XmlNode speedNode = node.SelectSingleNode(".//speed");
 				XmlNode minPowerNode = node.SelectSingleNode(".//minPower");
@@ -530,23 +530,25 @@ namespace LaserParamsConverter
 				if (speedNode != null && minPowerNode != null && maxPowerNode != null)
 				{
 					int speed = LaserHelper.ParseToInt(speedNode.Attributes[0].Value, NumberFormatInfo.InvariantInfo);
-					int power = LaserHelper.ParseToInt(maxPowerNode.Attributes[0].Value, NumberFormatInfo.InvariantInfo);
+					int minPower = LaserHelper.ParseToInt(minPowerNode.Attributes[0].Value, NumberFormatInfo.InvariantInfo);
+					int maxPower = LaserHelper.ParseToInt(maxPowerNode.Attributes[0].Value, NumberFormatInfo.InvariantInfo);
 
-					LaserParam param = new LaserParam(speed, power);
-					param.Convert(outLib.Laser, outLib.MaxPower, this.Lens, this.Wattage, outLib.Lens, outLib.Wattage);
+					LaserParam minParam = new LaserParam(speed, minPower);
+					minParam.Convert(outLib.Laser, outLib.MaxPower, this.Lens, this.Wattage, outLib.Lens, outLib.Wattage);
 
-					speedNode.Attributes[0].Value = param.Speed.ToString(NumberFormatInfo.InvariantInfo);
-					minPowerNode.Attributes[0].Value = param.Power.ToString(NumberFormatInfo.InvariantInfo);
-					maxPowerNode.Attributes[0].Value = param.Power.ToString(NumberFormatInfo.InvariantInfo);
+					LaserParam maxParam = new LaserParam(speed, maxPower);
+					maxParam.Convert(outLib.Laser, outLib.MaxPower, this.Lens, this.Wattage, outLib.Lens, outLib.Wattage);
+
+					speedNode.Attributes[0].Value = maxParam.Speed.ToString(NumberFormatInfo.InvariantInfo);
+					minPowerNode.Attributes[0].Value = minParam.Power.ToString(NumberFormatInfo.InvariantInfo);
+					maxPowerNode.Attributes[0].Value = maxParam.Power.ToString(NumberFormatInfo.InvariantInfo);
 				}
 			}
 		}
 
 		private void ConvertEZCAD(LibraryType lib, LaserLibrary outLib)
 		{
-			string cutSettingPath = "//EZCADLibrary/Material/Entry";
-
-			foreach (XmlNode node in outLib.doc.SelectNodes(cutSettingPath))
+			foreach (XmlNode node in outLib.doc.SelectNodes(EntryPath))
 			{
 				XmlNode speedNode = node.SelectSingleNode(".//MARKSPEED");
 				XmlNode powerNode = node.SelectSingleNode(".//POWERRATIO");

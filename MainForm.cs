@@ -297,6 +297,9 @@ namespace LaserParamsConverter
 		{
 			SaveLaserSettings(Laser);
 
+			inputLib.Lens = InLens;
+			inputLib.Wattage = InWatts;
+
 			outputLib = inputLib.Convert(Format, Laser, MaxPower, OutLens, OutWatts);
 			DisplayLibrary(outputLib, lvOutputPower);
 
