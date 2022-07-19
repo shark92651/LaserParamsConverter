@@ -242,6 +242,8 @@ namespace LaserParamsConverter
 		{
 			string pName;
 			string eName;
+			string noThickTitle;
+			string fullName;
 			int power;
 			int speed;
 
@@ -280,14 +282,16 @@ namespace LaserParamsConverter
 				power = LaserHelper.ParseToInt(powerNode.Attributes[0].Value, numStyles, NumberFormatInfo.InvariantInfo);
 				speed = LaserHelper.ParseToInt(speedNode.Attributes[0].Value, numStyles, NumberFormatInfo.InvariantInfo);
 
-				pName = HttpUtility.HtmlDecode(node.ParentNode.ParentNode.Attributes["name"].Value);
+				pName = lib.GetAttributeValue(node.ParentNode.ParentNode, "name", "");
+				noThickTitle = lib.GetAttributeValue(node.ParentNode, "NoThickTitle", "");
+				eName = lib.GetAttributeValue(node.ParentNode, "Desc", "");
 
 				if (lib.Format == LibraryType.LightBurn)
-					eName = HttpUtility.HtmlDecode(node.ParentNode.Attributes["Desc"].Value);
+					fullName = HttpUtility.HtmlDecode(string.Format("{0} {1} {2}", pName, noThickTitle, eName));
 				else
-					eName = "";
+					fullName = HttpUtility.HtmlDecode(pName);
 
-				lv.Items.Add(new ListViewItem(new string[] { string.Format("{0} {1}", pName, eName), power.ToString(), speed.ToString() }));
+				lv.Items.Add(new ListViewItem(new string[] { fullName, power.ToString(), speed.ToString() }));
 			}
 		}
 

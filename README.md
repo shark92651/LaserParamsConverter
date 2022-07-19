@@ -16,6 +16,11 @@ This software requires the .Net 6.0 Runtime. If the required .Net Runtime is not
 
 ## Change History
 
+### Version 1.1.2 Released 7/19/2022
+*Application now signed with EV Code Signing Certificate as trusted publisher  
+*Fixed issue with LightBurn to CSV not exporting correct parameter values  
+*Fixed issues with displaying properly flattened parameter names in Convert ListView  
+
 ### Version 1.1.1 Released 7/13/2022
 *Converts minPower and maxPower separately for LightBurn conversions  
 *Fixed conversion issue where Input Lens and Watts modified after file open  

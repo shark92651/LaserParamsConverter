@@ -406,12 +406,12 @@ namespace LaserParamsConverter
 					noThickTitle = GetAttributeValue(eNode, "NoThickTitle", "");
 					desc = GetAttributeValue(eNode, "Desc", "");
 
-					loop = GetChildNodeValue(node, ".//Entry/CutSetting/numPasses", "1");
-					speed = GetChildNodeValue(node, ".//Entry/CutSetting/speed", "0");
-					power = GetChildNodeValue(node, ".//Entry/CutSetting/maxPower", "0");
-					freq = GetChildNodeValue(node, ".//Entry/CutSetting/frequency", "0");
+					loop = GetChildNodeValue(eNode, ".//CutSetting/numPasses", "1");
+					speed = GetChildNodeValue(eNode, ".//CutSetting/speed", "0");
+					power = GetChildNodeValue(eNode, ".//CutSetting/maxPower", "0");
+					freq = GetChildNodeValue(eNode, ".//CutSetting/frequency", "0");
 
-					mode = GetChildNodeValue(node, ".//Entry/CutSetting", "Scan");
+					mode = GetChildNodeValue(eNode, ".//CutSetting", "Scan");
 					if (mode == "Scan")
 						mode = "Fill";
 					else if (mode == "Cut")
@@ -419,7 +419,7 @@ namespace LaserParamsConverter
 					else
 						mode = "Offset Fill";
 
-					interval = GetChildNodeValue(node, ".//Entry/CutSetting/interval", "0.000");
+					interval = GetChildNodeValue(eNode, ".//CutSetting/interval", "0.000");
 
 					sb.AppendLine(string.Format("\"{0} {1} {2}\",{3},{4},{5},{6},{7},{8}", 
 						name.Replace("\"", "\"\""), noThickTitle.Replace("\"", "\"\""), desc.Replace("\"", "\"\""), 
