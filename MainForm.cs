@@ -267,7 +267,7 @@ namespace LaserParamsConverter
 					cutSettingPath = "//LightBurnLibrary/Material/Entry/CutSetting";
 					powerPath = ".//maxPower";
 					speedPath = ".//speed";
-					numStyles = NumberStyles.Integer;
+					numStyles = NumberStyles.AllowDecimalPoint;
 					break;
 			}
 
@@ -687,6 +687,13 @@ namespace LaserParamsConverter
 			tbCombine2.Text = "Select library file 2";
 			cbCombineFormat.Enabled = true;
 			btnSaveCombined.Enabled = false;
+		}
+
+		private void button1_Click(object sender, EventArgs e)
+		{
+			AdvancedForm dlg = new AdvancedForm();
+			dlg.ShowDialog();
+
 		}
 	}
 }

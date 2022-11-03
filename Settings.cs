@@ -91,6 +91,17 @@ namespace LaserParamsConverter
 			set { Properties.Settings.Default.chkForUpdates = value; }
 		}
 
+		public static bool advSetPulseWidth
+		{
+			get { return Properties.Settings.Default.advSetPulseWidth; }
+			set { Properties.Settings.Default.advSetPulseWidth = value; }
+		}
+
+		public static int advPulseWidth
+		{
+			get { return Properties.Settings.Default.advPulseWidth; }
+			set { Properties.Settings.Default.advPulseWidth = value; }
+		}
 
 		public static void Save()
 		{ 

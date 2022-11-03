@@ -16,6 +16,10 @@ This software requires the .Net 6.0 Runtime. If the required .Net Runtime is not
 
 ## Change History
 
+### Version 1.1.3 Released 11/3/2022
+*Added Advanced options on conversion, currently allows setting all library entries to a fixed Q-Pulse Width
+*Fixed issue when encountering unexpected decimal values in LightBurn libraries
+
 ### Version 1.1.2 Released 7/19/2022
 *Application now signed with EV Code Signing Certificate as trusted publisher  
 *Fixed issue with LightBurn to CSV not exporting correct parameter values  

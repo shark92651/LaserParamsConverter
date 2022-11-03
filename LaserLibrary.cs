@@ -25,6 +25,7 @@ using System.Globalization;
 using System.Reflection;
 using System.ComponentModel;
 using System.IO;
+using System.Xml.Linq;
 
 namespace LaserParamsConverter
 {
@@ -101,7 +102,7 @@ namespace LaserParamsConverter
 		public int Wattage { get => wattage; set => wattage = value; }
 
 		private XmlDocument doc = new XmlDocument();
-		public XmlDocument XmlDoc { get => doc;}
+		public XmlDocument XmlDoc { get => doc; }
 
 		private string RootNodeName
 		{
@@ -127,7 +128,7 @@ namespace LaserParamsConverter
 
 		public string MaterialPath
 		{
-			get {	return string.Format("//{0}/Material", RootNodeName); }
+			get { return string.Format("//{0}/Material", RootNodeName); }
 		}
 
 		public string EntryPath
@@ -254,7 +255,7 @@ namespace LaserParamsConverter
 		{
 			doc.Save(fileName);
 		}
-				
+
 		public void SaveAsLightBurn(string fileName)
 		{
 			if (Format == LibraryType.LightBurn)
@@ -421,13 +422,13 @@ namespace LaserParamsConverter
 
 					interval = GetChildNodeValue(eNode, ".//CutSetting/interval", "0.000");
 
-					sb.AppendLine(string.Format("\"{0} {1} {2}\",{3},{4},{5},{6},{7},{8}", 
-						name.Replace("\"", "\"\""), noThickTitle.Replace("\"", "\"\""), desc.Replace("\"", "\"\""), 
-						loop, 
-						speed, 
+					sb.AppendLine(string.Format("\"{0} {1} {2}\",{3},{4},{5},{6},{7},{8}",
+						name.Replace("\"", "\"\""), noThickTitle.Replace("\"", "\"\""), desc.Replace("\"", "\"\""),
+						loop,
+						speed,
 						power, (LaserHelper.ParseToInt(freq) / 1000).ToString(),
 						mode,
-						interval) );
+						interval));
 				}
 
 			}
@@ -477,11 +478,11 @@ namespace LaserParamsConverter
 				power = GetChildNodeValue(node, ".//Entry/CutSetting/POWERRATIO", "0");
 				freq = GetChildNodeValue(node, freqPath, "0");
 
-				sb.AppendLine(string.Format("\"{0}\",{1},{2},{3},{4}", name.Replace("\"", "\"\""), 
+				sb.AppendLine(string.Format("\"{0}\",{1},{2},{3},{4}", name.Replace("\"", "\"\""),
 					LaserHelper.ParseToInt(loop, NumberFormatInfo.InvariantInfo).ToString(),
 					LaserHelper.ParseToInt(speed, NumberStyles.AllowExponent | NumberStyles.AllowDecimalPoint, NumberFormatInfo.InvariantInfo).ToString(),
-					LaserHelper.ParseToInt(power, NumberStyles.AllowExponent | NumberStyles.AllowDecimalPoint, NumberFormatInfo.InvariantInfo).ToString(), 
-					(LaserHelper.ParseToInt(freq, NumberStyles.AllowExponent | NumberStyles.AllowDecimalPoint, NumberFormatInfo.InvariantInfo) / 1000).ToString()) );
+					LaserHelper.ParseToInt(power, NumberStyles.AllowExponent | NumberStyles.AllowDecimalPoint, NumberFormatInfo.InvariantInfo).ToString(),
+					(LaserHelper.ParseToInt(freq, NumberStyles.AllowExponent | NumberStyles.AllowDecimalPoint, NumberFormatInfo.InvariantInfo) / 1000).ToString()));
 			}
 
 			File.WriteAllText(fileName, sb.ToString());
@@ -523,9 +524,14 @@ namespace LaserParamsConverter
 		{
 			foreach (XmlNode node in outLib.doc.SelectNodes(EntryPath))
 			{
-				XmlNode speedNode = node.SelectSingleNode(".//speed");
-				XmlNode minPowerNode = node.SelectSingleNode(".//minPower");
-				XmlNode maxPowerNode = node.SelectSingleNode(".//maxPower");
+				// Fixed Conversions
+				if (Settings.advSetPulseWidth)
+					ForceNodeValue(outLib, node.ChildNodes[0], "QPulseWidth", Settings.advPulseWidth.ToString(NumberFormatInfo.InvariantInfo));
+
+				// Speed/Power Conversion
+				XmlNode speedNode = node.SelectSingleNode("./CutSetting/speed");
+				XmlNode minPowerNode = node.SelectSingleNode("./CutSetting/minPower");
+				XmlNode maxPowerNode = node.SelectSingleNode("./CutSetting/maxPower");
 
 				if (speedNode != null && minPowerNode != null && maxPowerNode != null)
 				{
@@ -550,6 +556,19 @@ namespace LaserParamsConverter
 		{
 			foreach (XmlNode node in outLib.doc.SelectNodes(EntryPath))
 			{
+				// Fixed Conversions
+				if (Settings.advSetPulseWidth)
+				{
+					string value;
+					if (lib == LibraryType.EZCAD2)
+						value = Settings.advPulseWidth.ToString("E6", NumberFormatInfo.InvariantInfo).ToLower();
+					else
+						value = Settings.advPulseWidth.ToString("0.000000", NumberFormatInfo.InvariantInfo);
+
+					ForceNodeValue(outLib, node, "QPULSEWIDTH", value);
+				}
+
+				//Speed/Power Conversion
 				XmlNode speedNode = node.SelectSingleNode(".//MARKSPEED");
 				XmlNode powerNode = node.SelectSingleNode(".//POWERRATIO");
 
@@ -571,12 +590,24 @@ namespace LaserParamsConverter
 						speedNode.Attributes[0].Value = param.Speed.ToString("0.000000", NumberFormatInfo.InvariantInfo);
 						powerNode.Attributes[0].Value = param.Power.ToString("0.000000", NumberFormatInfo.InvariantInfo);
 					}
-
 				}
 			}
 		}
 
-		public class LaserParam
+		private void ForceNodeValue(LaserLibrary outLib, XmlNode parent, string name, string value)
+		{
+			XmlNode child = parent.SelectSingleNode(string.Format(".//{0}", name));
+			if (child == null)
+			{
+				child = outLib.doc.CreateElement(name);
+				(child as XmlElement).SetAttribute("Value", value);
+				parent.AppendChild(child);
+			}
+			else
+				child.Attributes[0].Value = value;
+		}
+
+	public class LaserParam
 		{
 			public int Speed { get; set; }
 			public int Power { get; set; }

@@ -69,6 +69,7 @@
 			this.cbCheckForUpdates = new System.Windows.Forms.CheckBox();
 			this.tcMain = new System.Windows.Forms.TabControl();
 			this.tpConvert = new System.Windows.Forms.TabPage();
+			this.button1 = new System.Windows.Forms.Button();
 			this.tpCombine = new System.Windows.Forms.TabPage();
 			this.tlpCombine = new System.Windows.Forms.TableLayoutPanel();
 			this.pnlLib1 = new System.Windows.Forms.Panel();
@@ -491,6 +492,7 @@
 			// tpConvert
 			// 
 			this.tpConvert.BackColor = System.Drawing.SystemColors.ButtonFace;
+			this.tpConvert.Controls.Add(this.button1);
 			this.tpConvert.Controls.Add(this.tlpMain);
 			this.tpConvert.Controls.Add(this.cbCheckForUpdates);
 			this.tpConvert.Controls.Add(this.btnSaveParams);
@@ -510,6 +512,17 @@
 			this.tpConvert.Size = new System.Drawing.Size(672, 512);
 			this.tpConvert.TabIndex = 0;
 			this.tpConvert.Text = "Convert";
+			// 
+			// button1
+			// 
+			this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.button1.Location = new System.Drawing.Point(553, 90);
+			this.button1.Name = "button1";
+			this.button1.Size = new System.Drawing.Size(98, 23);
+			this.button1.TabIndex = 31;
+			this.button1.Text = "Advanced";
+			this.button1.UseVisualStyleBackColor = true;
+			this.button1.Click += new System.EventHandler(this.button1_Click);
 			// 
 			// tpCombine
 			// 
@@ -889,5 +902,6 @@
 		private ToolStripMenuItem miUnselectAll;
 		private Button btnCombineReset;
 		private ImageList il16;
+		private Button button1;
 	}
 }
