@@ -23,6 +23,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="A2112.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="lpc.ico" />
   </ItemGroup>
 
